@@ -19,6 +19,7 @@ public class MemberController {
 
   @Autowired
   private MembershipService membershipService;
+  @Autowired
   private SpaceRepository spaceRepository;
 
   @PostMapping
