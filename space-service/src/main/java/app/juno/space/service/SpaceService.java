@@ -33,4 +33,10 @@ public class SpaceService {
         sp.getDescription(), sp.getImageUrl(), sp.getVisibility(), sp.getStatus(), sp.getOwnerId(), sp.getChatId()))
         .toList();
   }
+
+  public SpaceResponse getSpace(UUID id) {
+    Space space = spaceRepository.findById(id).get();
+    return new SpaceResponse(space.getId(), space.getName(), space.getDescription(), space.getImageUrl(),
+        space.getVisibility(), space.getStatus(), space.getOwnerId(), space.getChatId());
+  }
 }

@@ -15,6 +15,7 @@ import app.juno.space.dto.SpaceRequest;
 import app.juno.space.dto.SpaceResponse;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.http.HttpStatus;
@@ -32,6 +33,12 @@ public class SpaceController {
     return "Saved space";
   }
 
+  @GetMapping(path="/{id}")
+  @ResponseStatus(HttpStatus.FOUND)
+  public SpaceResponse getSpace(@PathVariable UUID id) {
+      return spaceService.getSpace(id);
+  }
+  
   @GetMapping
   @ResponseStatus(HttpStatus.FOUND)
   public List<SpaceResponse> getSpacesByOwnerId(@RequestParam UUID ownerId) {
