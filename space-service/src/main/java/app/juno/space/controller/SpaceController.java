@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.http.HttpStatus;
 
 @RestController
-@RequestMapping(path="/api/spaces")
+@RequestMapping(path = "/api/spaces")
 public class SpaceController {
   @Autowired
   private SpaceService spaceService;
@@ -33,13 +33,19 @@ public class SpaceController {
     return "Saved space";
   }
 
-  @GetMapping(path="/{id}")
+  @GetMapping(path = "/{id}")
   @ResponseStatus(HttpStatus.FOUND)
   public SpaceResponse getSpace(@PathVariable UUID id) {
-      return spaceService.getSpace(id);
+    return spaceService.getSpace(id);
   }
-  
-  @GetMapping
+
+  @GetMapping(params = "userId")
+  @ResponseStatus(HttpStatus.FOUND)
+  public List<SpaceResponse> getSpacesByUserId(@RequestParam UUID userId) {
+    return spaceService.getAllSpacesByUserId(userId);
+  }
+
+  @GetMapping(params = "ownerId")
   @ResponseStatus(HttpStatus.FOUND)
   public List<SpaceResponse> getSpacesByOwnerId(@RequestParam UUID ownerId) {
     return spaceService.getSpacesByOwnerId(ownerId);

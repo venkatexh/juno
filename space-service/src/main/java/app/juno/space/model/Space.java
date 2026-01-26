@@ -1,5 +1,7 @@
 package app.juno.space.model;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import jakarta.persistence.Column;
@@ -7,6 +9,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -14,7 +17,7 @@ import jakarta.persistence.Table;
 public class Space {
   @Id
   @GeneratedValue(strategy = GenerationType.UUID)
-  @Column(name="space_id", unique = true, nullable = false)
+  @Column(unique = true, nullable = false)
   private UUID id;
   private String name;
   private String description;
@@ -23,6 +26,9 @@ public class Space {
   private String status;
   private UUID ownerId;
   private UUID chatId;
+
+  @OneToMany(mappedBy = "space")
+  private List<Membership> memberships = new ArrayList<>();
 
   public Space() {
   }

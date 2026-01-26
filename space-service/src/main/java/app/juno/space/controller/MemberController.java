@@ -8,18 +8,24 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.http.HttpStatus;
 
-import app.juno.space.dto.Member.MemberRequest;
-import app.juno.space.service.MemberService;
+import app.juno.space.dto.Member.MembershipRequest;
+import app.juno.space.model.Space;
+import app.juno.space.repository.SpaceRepository;
+import app.juno.space.service.MembershipService;
 
 @RestController
-@RequestMapping(path="/api/spaces/member")
+@RequestMapping(path = "/api/spaces/member")
 public class MemberController {
+
   @Autowired
-  private MemberService memberService;
+  private MembershipService membershipService;
+  private SpaceRepository spaceRepository;
 
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
-  public String createNewMembership(@RequestBody MemberRequest memberRequest) {
-    memberService.createNewMembership(memberRequest);
+  public String createNewMembership(@RequestBody MembershipRequest memberRequest) {
+    Space space = spaceRepository.findById(memberRequest.spaceId()).get();
+    membershipService.createNewMembership(memberRequest.userId(), space);
     return "Saved membership";
-  }}
+  }
+}

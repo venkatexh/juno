@@ -8,13 +8,18 @@ import org.springframework.stereotype.Service;
 
 import app.juno.space.dto.SpaceRequest;
 import app.juno.space.dto.SpaceResponse;
+import app.juno.space.model.Membership;
 import app.juno.space.model.Space;
+import app.juno.space.repository.MembershipRepository;
 import app.juno.space.repository.SpaceRepository;
 
 @Service
 public class SpaceService {
   @Autowired
   private SpaceRepository spaceRepository;
+
+  @Autowired
+  private MembershipRepository membershipRepository;
 
   public void createNewSpace(SpaceRequest spaceRequest) {
     Space space = new Space();
@@ -34,9 +39,19 @@ public class SpaceService {
         .toList();
   }
 
-  public SpaceResponse getSpace(UUID id) {
-    Space space = spaceRepository.findById(id).get();
-    return new SpaceResponse(space.getId(), space.getName(), space.getDescription(), space.getImageUrl(),
-        space.getVisibility(), space.getStatus(), space.getOwnerId(), space.getChatId());
+  public List<SpaceResponse> getAllSpacesByUserId(UUID userId) {
+    return membershipRepository.findByUserId(userId)
+        .stream()
+        .map(Membership::getSpace)
+        .toList().stream().map(sp -> new SpaceResponse(sp.getId(), sp.getName(), sp.getDescription(), sp.getImageUrl(),
+            sp.getVisibility(), sp.getStatus(), sp.getOwnerId(), sp.getChatId()))
+        .toList();
   }
+
+  public SpaceResponse getSpace(UUID id) {
+    Space sp = spaceRepository.findById(id).get();
+    return new SpaceResponse(sp.getId(), sp.getName(), sp.getDescription(),
+        sp.getImageUrl(), sp.getVisibility(), sp.getStatus(), sp.getOwnerId(), sp.getChatId());
+  }
+
 }
