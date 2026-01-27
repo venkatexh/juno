@@ -43,7 +43,6 @@ public class User {
   private String profileImageUrl;
   private Gender gender;
   private String locale;
-  private String disabled; 
   private String timezone;
   private String providerId;
 
