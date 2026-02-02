@@ -17,7 +17,6 @@ public class UserService {
   public void createNewUser(UserRequest userRequest) {
     User user = new User();
     user.setEmail(userRequest.email());
-    user.setPassword(userRequest.password());
     userRepository.save(user);
   }
 }
