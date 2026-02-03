@@ -34,19 +34,19 @@ public class SpaceController {
   }
 
   @GetMapping(path = "/{id}")
-  @ResponseStatus(HttpStatus.FOUND)
+  @ResponseStatus(HttpStatus.OK)
   public SpaceResponse getSpace(@PathVariable UUID id) {
     return spaceService.getSpace(id);
   }
 
   @GetMapping(params = "userId")
-  @ResponseStatus(HttpStatus.FOUND)
+  @ResponseStatus(HttpStatus.OK)
   public List<SpaceResponse> getSpacesByUserId(@RequestParam UUID userId) {
     return spaceService.getAllSpacesByUserId(userId);
   }
 
   @GetMapping(params = "ownerId")
-  @ResponseStatus(HttpStatus.FOUND)
+  @ResponseStatus(HttpStatus.OK)
   public List<SpaceResponse> getSpacesByOwnerId(@RequestParam UUID ownerId) {
     return spaceService.getSpacesByOwnerId(ownerId);
   }
