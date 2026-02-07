@@ -1,25 +1,19 @@
-const SmallText = ({ children }: { children: string }) => {
-  return (
-    <p className="text-sm text-gray-400">
-      {children}
-    </p>
-  )
-}
+import { Text } from "@/components/reusables/texts/types/Text";
 
-const MediumText = ({ text }: { text: string }) => {
-  return (
-    <p className="text-base text-gray-400">
-      {text}
-    </p>
-  )
-}
+const TextSmall = ({ children, className }: Text) => {
+  return <p className={`${className} text-sm text-gray-400`}>{children}</p>;
+};
 
-const LargeText = ({ children }: { children: string }) => {
-  return (
-    <p className="text-lg text-gray-400">
-      {children}
-    </p>
-  )
-}
+const TextMedium = ({ children, className }: Text) => {
+  return <p className={`${className} text-base text-gray-400`}>{children}</p>;
+};
 
-export { SmallText, MediumText, LargeText }
+const TextLarge = ({ children, className }: Text) => {
+  return <p className={`${className} text-lg text-gray-400`}>{children}</p>;
+};
+
+const TextHeading = ({ children, className }: Text) => {
+  return <p className={`${className} text-3xl text-gray-400`}>{children}</p>;
+};
+
+export { TextSmall, TextMedium, TextLarge, TextHeading };
