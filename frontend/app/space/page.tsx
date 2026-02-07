@@ -1,9 +1,9 @@
 "use client";
-import { useEffect, useState } from "react";
 import axios from "axios";
+import { useEffect, useState } from "react";
 import { Space } from "@/components/space/types/SpaceTypes";
-import SpaceCard from "@/components/space/types/SpaceCard";
-import { LargeText } from "@/components/reusables/texts/Texts";
+import { TextLarge } from "@/components/reusables/texts/Texts";
+import SpaceCard from "@/components/space/SpaceCard";
 
 const SpacePage = () => {
   const baseURL = process.env.NEXT_PUBLIC_API_BASE_URL;
@@ -23,7 +23,7 @@ const SpacePage = () => {
 
   return (
     <div>
-      <LargeText>Your spaces</LargeText>
+      <TextLarge>Your spaces</TextLarge>
       <div className='flex flex-wrap gap-12 my-6'>
         {spaces.map((space: Space) => (
           <SpaceCard
