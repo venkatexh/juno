@@ -2,7 +2,6 @@ package app.juno.space.model;
 
 import java.util.UUID;
 
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -22,17 +21,27 @@ public class Membership {
   @Column(unique = true, nullable = false)
   private UUID id;
 
-  @Column(name="user_id", nullable = false)
+  @Column(name = "user_id", nullable = false)
   private UUID userId;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "space_id", nullable = false)
   private Space space;
 
-  public Membership() {}
+  public Membership() {
+  }
+
   public Membership(UUID userId, Space space) {
     this.userId = userId;
     this.space = space;
+  }
+
+  public UUID getId() {
+    return id;
+  }
+
+  public UUID getUserId() {
+    return userId;
   }
 
   public Space getSpace() {
