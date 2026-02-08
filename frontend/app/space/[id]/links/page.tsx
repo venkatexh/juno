@@ -3,7 +3,7 @@
 import axios from "axios";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import { Link } from "@/components/space/links/types/Link";
+import { LinkType } from "@/components/space/links/types/Link";
 import LinkCard from "@/components/space/links/LinkCard";
 
 const LinksPage = () => {
@@ -22,8 +22,8 @@ const LinksPage = () => {
   }, []);
 
   return (
-    <div className='flex flex-wrap p-12'>
-      {links.map((link: Link) => (
+    <div className='grid lg:grid-cols-2 p-12 gap-12 auto-rows-fr'>
+      {links.map((link: LinkType) => (
         <LinkCard
           key={link.id}
           id={link.id}

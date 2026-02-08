@@ -1,14 +1,18 @@
 "use client";
 
-import { Link } from "./types/Link";
+import { LinkType } from "./types/Link";
 import { useEffect, useState } from "react";
 import { TextLarge, TextSmall } from "@/components/reusables/texts/Texts";
+import Link from "next/link";
 
-const LinkCard = ({ title, description, url }: Link) => {
+const LinkCard = ({ title, description, url }: LinkType) => {
   const [preview, setPreview] = useState(
     {} as { image?: string; images?: string[] },
   );
   const [previewLoading, setPreviewLoading] = useState(true);
+  const [isLargeImage, setIsLargeImage] = useState(false);
+
+  const IMAGE_HEIGHT_THRESHOLD = 60;
 
   useEffect(() => {
     const fetchLinkPreview = async () => {
@@ -31,29 +35,37 @@ const LinkCard = ({ title, description, url }: Link) => {
   }, [url]);
 
   return (
-    <div className='w-80 h-64 rounded-xl bg-slate-800'>
-      <div className='h-3/5 flex items-center justify-center'>
-        {previewLoading && (
-          <div className='text-xs'>Loading link preview..</div>
-        )}
-        {!previewLoading && (preview.image || preview.images) ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
-            src={preview.image || preview.images?.[0]}
-            alt='preview'
-            className='mx-auto'
-          />
-        ) : (
-          !previewLoading && (
-            <div className='text-xs'>Link preview not available</div>
-          )
-        )}
+    <Link href={url} className='block w-full h-full'>
+      <div className='h-full flex rounded-xl bg-slate-800 overflow-hidden'>
+        <div className='w-2/5 h-full flex items-center justify-center'>
+          {previewLoading && (
+            <div className='text-xs'>Loading link preview..</div>
+          )}
+          {!previewLoading && (preview.image || preview.images) ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src={preview.image || preview.images?.[0]}
+              alt='preview'
+              onLoad={(e) => {
+                const img = e.currentTarget;
+                setIsLargeImage(img.naturalHeight >= IMAGE_HEIGHT_THRESHOLD);
+              }}
+              className={`${isLargeImage ? "h-full" : ""} rounded-xl rounded-r-none`}
+            />
+          ) : (
+            !previewLoading && (
+              <div className='text-xs'>Link preview not available</div>
+            )
+          )}
+        </div>
+        <div className='w-3/5 px-6 py-2'>
+          <TextLarge>{title}</TextLarge>
+          <TextSmall className='line-clamp-2'>{description}</TextSmall>
+          <TextSmall>Posted by First Last</TextSmall>
+          <TextSmall>2 days ago</TextSmall>
+        </div>
       </div>
-      <div className='w-full h-2/5 px-6'>
-        <TextLarge>{title}</TextLarge>
-        <TextSmall>{description}</TextSmall>
-      </div>
-    </div>
+    </Link>
   );
 };
 
