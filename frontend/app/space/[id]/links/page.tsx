@@ -3,14 +3,17 @@
 import axios from "axios";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import { LinkType } from "@/components/space/links/types/Link";
+import { useModal } from "@/contexts/modal-context";
 import LinkCard from "@/components/space/links/LinkCard";
+import { LinkType } from "@/components/space/links/types/Link";
+import CreateLinkForm from "@/components/space/links/CreateLinkForm";
 
 const LinksPage = () => {
   const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
 
   const params = useParams();
-  const [links, setLinks] = useState([]);
+  const { openModal } = useModal();
+  const [links, setLinks] = useState<LinkType[]>([]);
 
   useEffect(() => {
     const fetchLinks = async () => {
@@ -19,7 +22,19 @@ const LinksPage = () => {
     };
 
     fetchLinks();
-  }, []);
+  }, [baseUrl, params?.id]);
+
+  const addNewLinkToList = (link: LinkType) => {
+    setLinks((prevLinks) => [...prevLinks, link]);
+  };
+
+  const handleOpenNewLink = () => {
+    openModal(
+      <CreateLinkForm
+        handleNewLinkResponse={(link) => addNewLinkToList(link)}
+      />,
+    );
+  };
 
   return (
     <div className='grid lg:grid-cols-2 p-12 gap-12 auto-rows-fr'>
@@ -32,6 +47,7 @@ const LinksPage = () => {
           url={link.url}
         />
       ))}
+      <div onClick={handleOpenNewLink}>New Link</div>
     </div>
   );
 };
