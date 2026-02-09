@@ -15,7 +15,7 @@ public class LinkService {
   @Autowired
   private LinkRepository linkRepository;
 
-  public void createNewLink(LinkRequest linkBody) {
+  public Link createNewLink(LinkRequest linkBody) {
     Link link = new Link();
     link.setSpaceId(linkBody.spaceId());
     link.setTitle(linkBody.title());
@@ -24,6 +24,7 @@ public class LinkService {
     link.setAddedById(linkBody.addedById());
 
     linkRepository.save(link);
+    return link;
   }
 
   public List<Link> getLinks(UUID spaceId) {

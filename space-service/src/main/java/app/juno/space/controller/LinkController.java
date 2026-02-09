@@ -17,24 +17,21 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-
-
 @RestController
 @RequestMapping("/api/spaces/{spaceId}/links")
 public class LinkController {
-  @Autowired
-  private LinkService linkService;
+    @Autowired
+    private LinkService linkService;
 
-  @GetMapping
-  public List<Link> getLinks(@PathVariable UUID spaceId) {
-      return linkService.getLinks(spaceId);
-  }
+    @GetMapping
+    public List<Link> getLinks(@PathVariable UUID spaceId) {
+        return linkService.getLinks(spaceId);
+    }
 
-  @PostMapping
-  @ResponseStatus(HttpStatus.CREATED)
-  public void postMethodName(@RequestBody LinkRequest linkBody) {      
-      linkService.createNewLink(linkBody);
-  }
-  
-  
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public Link createLink(@RequestBody LinkRequest linkBody) {
+        return linkService.createNewLink(linkBody);
+    }
+
 }
