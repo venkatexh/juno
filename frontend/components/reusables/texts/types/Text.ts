@@ -1,4 +1,4 @@
 export type Text = {
-  children: string;
-  className?: string
-}
+  children: string | string[];
+  className?: string;
+};
