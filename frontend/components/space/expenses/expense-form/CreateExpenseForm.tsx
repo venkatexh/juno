@@ -1,5 +1,5 @@
 import { ExpenseProps } from "../types/ExpenseProps";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useModal } from "@/contexts/modal-context";
 import { useParams } from "next/navigation";
 import axios from "axios";
@@ -16,11 +16,20 @@ const CreateExpenseForm = ({
   const baseURL = process.env.NEXT_PUBLIC_API_BASE_URL;
   const [errorMessage, setErrorMessage] = useState("");
   const [formState, setFormState] = useState("FIRST");
+  const [members, setMembers] = useState([]);
   const [date, setDate] = useState<Date | null>(new Date());
   const [formData, setFormData] = useState({
     title: "",
     amount: null,
   });
+
+  useEffect(() => {
+    const fetchMembers = async () => {
+      const res = await axios.get(`${baseURL}/spaces/${params?.id}/members`);
+      setMembers(res.data);
+    };
+    fetchMembers();
+  }, [params?.id, baseURL]);
 
   const handleFormChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -71,6 +80,7 @@ const CreateExpenseForm = ({
       handleFormSubmit={handleFormSubmit}
       setFormState={setFormState}
       errorMessage={errorMessage}
+      members={members}
     />,
   );
 
