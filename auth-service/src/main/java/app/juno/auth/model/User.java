@@ -10,6 +10,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
 @Entity
 @Table(name = "users")
 @Getter
@@ -22,7 +23,7 @@ public class User {
   @Column(name = "id", unique = true, nullable = false)
   private String id; // Keycloak userId (sub)
 
-  @Column(name="email", unique = true, nullable = false)
+  @Column(name = "email", unique = true, nullable = false)
   private String email;
 
   @Column(name = "phone_number", unique = true, nullable = true)
@@ -51,4 +52,16 @@ public class User {
 
   private Status status;
   private Source source;
+
+  public String getId() {
+    return id;
+  }
+
+  public String getEmail() {
+    return email;
+  }
+
+  public String getName() {
+    return displayName;
+  }
 }
