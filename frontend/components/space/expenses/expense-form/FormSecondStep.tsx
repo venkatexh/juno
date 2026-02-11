@@ -26,7 +26,7 @@ const SecondStep = ({
         <SubmitButton
           text='Create'
           className='ml-4'
-          onClick={() => handleFormSubmit()}
+          onClick={() => handleFormSubmit}
         />
       </div>
     </div>
