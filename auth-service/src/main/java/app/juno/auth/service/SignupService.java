@@ -15,6 +15,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import app.juno.auth.dto.SignupRequest;
+import app.juno.auth.model.User;
+import app.juno.auth.repository.UserRepository;
 
 @Service
 public class SignupService {
@@ -22,13 +24,14 @@ public class SignupService {
   @Lazy
   @Autowired
   private KeycloakAdminTokenService adminTokenService;
+  @Autowired
+  private UserRepository userRepository;
 
   @Value("${keycloak.base-url}")
   private String baseUrl;
 
   @Value("${keycloak.realm}")
   private String realm;
-
 
   public void signup(SignupRequest req) {
     String adminToken = adminTokenService.getAdminToken();
@@ -56,6 +59,12 @@ public class SignupService {
         "temporary", false);
 
     restTemplate.put(resetPasswordUrl, new HttpEntity<>(resetPasswordBody, headers));
+
+    User user = new User();
+    user.setId(userId);
+    user.setEmail(req.email());
+
+    userRepository.save(user);
 
   }
 
