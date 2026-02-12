@@ -17,20 +17,20 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
-@RequestMapping("/api/spaces/{spaceId}/expenses")
+@RequestMapping("/api/modules/{moduleId}/expenses")
 public class ExpenseController {
 
   @Autowired
   private ExpenseService expenseService;
 
   @GetMapping
-  public List<ExpenseResponse> getExpenses(@PathVariable UUID spaceId) {
-    return expenseService.getExpensesBySpaceId(spaceId);
+  public List<ExpenseResponse> getExpenses(@PathVariable UUID moduleId) {
+    return expenseService.getExpensesByModuleId(moduleId);
   }
 
   @PostMapping
-  public ExpenseResponse createExpense(@RequestBody ExpenseRequest expenseRequest, @PathVariable UUID spaceId) {
-    return expenseService.createExpense(expenseRequest, spaceId);
+  public ExpenseResponse createExpense(@RequestBody ExpenseRequest expenseRequest, @PathVariable UUID moduleId) {
+    return expenseService.createExpense(expenseRequest, moduleId);
   }
 
 }

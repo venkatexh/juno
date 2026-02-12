@@ -19,9 +19,7 @@ public class ExpenseService {
   @Autowired
   private ExpenseRepository expenseRepository;
 
-  public ExpenseResponse createExpense(ExpenseRequest expenseRequest, UUID spaceId) {
-    // Validate input, create Expense and ExpenseSplit entities, save to database
-    // Return ExpenseResponse DTO
+  public ExpenseResponse createExpense(ExpenseRequest expenseRequest, UUID moduleId) {
 
     Expense expense = new Expense();
 
@@ -31,7 +29,7 @@ public class ExpenseService {
     expense.setCurrency(expenseRequest.currency());
     expense.setAddedByUserId(expenseRequest.addedByUserId());
     expense.setPaidByUserId(expenseRequest.paidByUserId());
-    expense.setSpaceId(spaceId);
+    expense.setModuleId(moduleId);
 
     List<ExpenseSplit> splits = expenseRequest.splits().stream()
         .map(sr -> {
@@ -66,13 +64,10 @@ public class ExpenseService {
 
   }
 
-  public List<ExpenseResponse> getExpensesBySpaceId(UUID spaceId) {
-    List<Expense> expenses = expenseRepository.findAll().stream()
-        .filter(e -> e.getSpaceId().equals(spaceId))
-        .toList();
-
-    return expenses.stream()
-        .map(this::mapToResponse)
+  public List<ExpenseResponse> getExpensesByModuleId(UUID moduleId) {
+    return expenseRepository
+        .findAllByModuleId(moduleId).stream().map(ex -> new ExpenseResponse(ex.getId(), ex.getTitle(),
+            ex.getExpenseDate(), ex.getAmount(), ex.getCurrency(), ex.getAddedByUserId(), ex.getPaidByUserId(), null))
         .toList();
   }
 }

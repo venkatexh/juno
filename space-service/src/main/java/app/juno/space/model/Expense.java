@@ -33,7 +33,7 @@ public class Expense {
   private UUID id;
 
   @Column(updatable = false, nullable = false)
-  private UUID spaceId;
+  private UUID moduleId;
 
   @Column(columnDefinition = "TEXT", nullable = false)
   private String title;
