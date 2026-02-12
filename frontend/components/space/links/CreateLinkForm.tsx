@@ -35,9 +35,9 @@ const CreateLinkForm = ({
     e.preventDefault();
     console.log(formData);
 
-    const res = await axios.post(`${baseUrl}/spaces/${params?.id}/links`, {
+    const res = await axios.post(`${baseUrl}/modules/${params?.moduleId}/links`, {
       ...formData,
-      spaceId: params?.id,
+      moduleId: params?.moduleId,
     });
     if (res.status === 201) {
       handleNewLinkResponse(res.data);

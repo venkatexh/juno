@@ -16,13 +16,14 @@ import { ModuleProps } from "@/components/module/types/ModuleProps";
 const NavbarAppSecondary = () => {
   const params = useParams();
   const { openModal } = useModal();
+  const baseURL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
   const [modules, setModules] = useState<ModuleProps[]>([]);
 
   useEffect(() => {
     const fetchModules = async () => {
       const res = await axios.get(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}/modules/${params?.id}`,
+        `${baseURL}/spaces/${params?.spaceId}/modules`,
       );
 
       if (res.status === 200 || res.status === 201) {
@@ -30,7 +31,7 @@ const NavbarAppSecondary = () => {
       }
     };
     fetchModules();
-  }, [params]);
+  }, [params, baseURL]);
 
   const handleNewModuleClick = () => {
     openModal(<CreateModuleForm />);
@@ -53,7 +54,7 @@ const NavbarAppSecondary = () => {
           <Link
             key={module.id}
             className='my-1 px-6 text-lg'
-            href={`/space/`}>
+            href={`/space/${params?.spaceId}/module/${module.id}`}>
             {module.name}
           </Link>
         ))}
