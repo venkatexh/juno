@@ -1,7 +1,6 @@
 package app.juno.auth.controller;
 
 import java.util.List;
-// import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -15,6 +14,8 @@ import app.juno.auth.dto.UserRequest;
 import app.juno.auth.repository.UserRepository;
 import app.juno.auth.service.UserService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 @Slf4j
 @RestController
@@ -44,6 +45,11 @@ public class UserController {
     log.info("profiles {}", profiles);
     return profiles;
 
+  }
+
+  @GetMapping("/search/email/{email}")
+  public UserProfile getUserByEmail(@PathVariable String email) {
+    return userRepository.findByEmail(email);
   }
 
 }

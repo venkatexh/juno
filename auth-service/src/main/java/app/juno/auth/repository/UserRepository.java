@@ -11,4 +11,6 @@ import app.juno.auth.model.User;
 @Repository
 public interface UserRepository extends JpaRepository<User, String> {
   List<UserProfile> findByIdIn(List<String> ids);
+
+  UserProfile findByEmail(String email);
 }
