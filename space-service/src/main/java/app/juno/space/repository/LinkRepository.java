@@ -10,5 +10,5 @@ import app.juno.space.model.Link;
 
 @Repository
 public interface LinkRepository extends JpaRepository<Link, UUID> {
-  List<Link> findAllBySpaceId(UUID spaceId);
+  List<Link> findAllByModuleId(UUID moduleId);
 }

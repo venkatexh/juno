@@ -31,7 +31,7 @@ public class Link {
   @Column(unique = true, nullable = false)
   private UUID id;
 
-  private UUID spaceId;
+  private UUID moduleId;
 
   @Column(columnDefinition = "TEXT", nullable = false)
   private String url;

@@ -18,14 +18,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
-@RequestMapping("/api/spaces/{spaceId}/links")
+@RequestMapping("/api/modules/{moduleId}/links")
 public class LinkController {
     @Autowired
     private LinkService linkService;
 
     @GetMapping
-    public List<Link> getLinks(@PathVariable UUID spaceId) {
-        return linkService.getLinks(spaceId);
+    public List<Link> getLinks(@PathVariable UUID moduleId) {
+        return linkService.getLinks(moduleId);
     }
 
     @PostMapping

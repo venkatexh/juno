@@ -17,7 +17,7 @@ public class LinkService {
 
   public Link createNewLink(LinkRequest linkBody) {
     Link link = new Link();
-    link.setSpaceId(linkBody.spaceId());
+    link.setModuleId(linkBody.moduleId());
     link.setTitle(linkBody.title());
     link.setDescription(linkBody.description());
     link.setUrl(linkBody.url());
@@ -28,6 +28,6 @@ public class LinkService {
   }
 
   public List<Link> getLinks(UUID spaceId) {
-    return linkRepository.findAllBySpaceId(spaceId);
+    return linkRepository.findAllByModuleId(spaceId);
   }
 }
