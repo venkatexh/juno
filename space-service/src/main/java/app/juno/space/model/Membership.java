@@ -2,6 +2,7 @@ package app.juno.space.model;
 
 import java.util.UUID;
 
+import jakarta.persistence.UniqueConstraint;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -13,7 +14,9 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "memberships")
+@Table(name = "memberships", uniqueConstraints = {
+    @UniqueConstraint(columnNames = { "user_id", "space_id" })
+})
 public class Membership {
 
   @Id

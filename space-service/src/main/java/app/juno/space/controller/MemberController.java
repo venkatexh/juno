@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import app.juno.space.dto.Member.MemberProfile;
+import app.juno.space.dto.Member.MemberShipBatchRequest;
 import app.juno.space.dto.Member.MembershipRequest;
 import app.juno.space.model.Space;
 import app.juno.space.repository.SpaceRepository;
@@ -36,6 +37,13 @@ public class MemberController {
     Space space = spaceRepository.findById(memberRequest.spaceId()).get();
     membershipService.createNewMembership(memberRequest.userId(), space);
     return "Saved membership";
+  }
+
+  @PostMapping("/members/batch")
+  @ResponseStatus(HttpStatus.CREATED)
+  public String creatBatchMembership(@RequestBody MemberShipBatchRequest memberRequest) {
+    membershipService.createBatchMembership(memberRequest);
+    return "Saved memberships";
   }
 
   @GetMapping(params = "spaceId")

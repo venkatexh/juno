@@ -10,11 +10,13 @@ import org.springframework.stereotype.Service;
 
 import app.juno.space.client.AuthServiceClient;
 import app.juno.space.dto.Member.MemberProfile;
+import app.juno.space.dto.Member.MemberShipBatchRequest;
 import app.juno.space.dto.Member.UserId;
 import app.juno.space.dto.Member.UserProfile;
 import app.juno.space.model.Membership;
 import app.juno.space.model.Space;
 import app.juno.space.repository.MembershipRepository;
+import app.juno.space.repository.SpaceRepository;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -24,11 +26,23 @@ public class MembershipService {
   @Autowired
   private MembershipRepository membershipRepository;
   @Autowired
+  private SpaceRepository spaceRepository;
+  @Autowired
   private AuthServiceClient authServiceClient;
 
   public void createNewMembership(UUID userId, Space space) {
     Membership membership = new Membership(userId, space);
     membershipRepository.save(membership);
+  }
+
+  public void createBatchMembership(MemberShipBatchRequest membershipRequest) {
+    Space space = spaceRepository.findById(membershipRequest.spaceId()).get();
+
+    List<Membership> memberships = membershipRequest.userIds().stream()
+        .map(userId -> new Membership(userId, space))
+        .toList();
+
+    membershipRepository.saveAll(memberships);
   }
 
   public List<UserId> getUserIdsBySpaceId(UUID spaceId) {
