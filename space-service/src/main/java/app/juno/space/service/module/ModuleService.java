@@ -3,6 +3,9 @@ package app.juno.space.service.module;
 import app.juno.space.repository.module.ModuleRepository;
 import app.juno.space.repository.module.ModuleTemplateRepository;
 
+import java.util.List;
+import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -42,5 +45,18 @@ public class ModuleService {
         savedModule.getCreatedByUserId(),
         savedModule.getCreatedAt(),
         savedModule.getUpdatedAt());
+  }
+
+  public List<ModuleResponse> getAllModulesBySpaceId(UUID spaceId) {
+    return moduleRepository.findAllBySpaceId(spaceId).stream()
+        .map(m -> new ModuleResponse(m.getId(),
+            m.getName(),
+            m.getSpaceId(),
+            m.getTemplateId(),
+            m.getModuleType(),
+            m.getCreatedByUserId(),
+            m.getCreatedAt(),
+            m.getUpdatedAt()))
+        .toList();
   }
 }
