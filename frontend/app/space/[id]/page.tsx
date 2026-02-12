@@ -1,19 +1,18 @@
 "use client";
-import { Space } from "@/components/space/types/SpaceTypes";
+import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
-import axios from "axios";
+
+import { Space } from "@/components/space/types/SpaceTypes";
 import SpaceHeader from "@/components/space/home/SpaceHeader";
 import SpaceDueToday from "@/components/space/home/SpaceDueToday";
 import SpaceMembers from "@/components/space/home/SpaceMembers";
 
 const SpacePage = () => {
-  const [space, setSpace] = useState<Space>();
-
-  const [pageError, setPageError] = useState(false);
   const params = useParams();
-
   const baseURL = process.env.NEXT_PUBLIC_API_BASE_URL;
+
+  const [space, setSpace] = useState<Space>();
 
   useEffect(() => {
     const getSpaceById = async () => {
@@ -22,7 +21,7 @@ const SpacePage = () => {
     };
 
     getSpaceById();
-  }, [pageError]);
+  }, [params, baseURL]);
 
   return (
     <div className='p-12 flex flex-col gap-12'>
