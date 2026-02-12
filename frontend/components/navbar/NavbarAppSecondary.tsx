@@ -8,8 +8,6 @@ import { useModal } from "@/contexts/modal-context";
 import { useParams } from "next/navigation";
 import { TextLarge } from "../reusables/texts/Texts";
 import CreateModuleForm from "../module/CreateModuleForm";
-import { NavItem } from "@/resources/constants/navbar/types/NavItem";
-import { menuItemsNavSec } from "@/resources/constants/navbar/MenuItemsNavbarSecondary";
 
 import { ModuleProps } from "@/components/module/types/ModuleProps";
 
@@ -39,16 +37,7 @@ const NavbarAppSecondary = () => {
 
   return (
     <div className='fixed left-16 w-64 h-screen border-r border-slate-800 flex flex-col py-10 px-2'>
-      <div className='flex flex-col'>
-        {menuItemsNavSec.map((item: NavItem) => (
-          <Link
-            key={item.title}
-            className='my-1 px-6 text-lg'
-            href={`/space/${params?.id}/${item.href}`}>
-            <div>{item.title}</div>
-          </Link>
-        ))}
-      </div>
+      <TextLarge className='px-6 pb-4'>All modules</TextLarge>
       <div className='flex flex-col'>
         {modules.map((module: ModuleProps) => (
           <Link

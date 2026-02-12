@@ -1,29 +1,34 @@
 "use client";
 
 import axios from "axios";
-import ExpenseCard from "./ExpenseCard";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import { ExpenseProps } from "./types/ExpenseProps";
-import { TextSmall } from "@/components/reusables/texts/Texts";
-import { AddButton } from "@/components/reusables/buttons/Buttons";
 import { useModal } from "@/contexts/modal-context";
+
+import ExpenseCard from "./ExpenseCard";
+import { TextSmall } from "@/components/reusables/texts/Texts";
 import CreateExpenseForm from "./expense-form/CreateExpenseForm";
+import { AddButton } from "@/components/reusables/buttons/Buttons";
+
+import { ExpenseProps } from "./types/ExpenseProps";
 
 const Expenses = () => {
   const params = useParams();
   const { openModal } = useModal();
   const baseURL = process.env.NEXT_PUBLIC_API_BASE_URL;
+
   const [expenses, setExpenses] = useState<ExpenseProps[]>([]);
 
   useEffect(() => {
     const fetchExpenses = async () => {
-      const res = await axios.get(`${baseURL}/spaces/${params?.id}/expenses`);
+      const res = await axios.get(
+        `${baseURL}/modules/${params?.moduleId}/expenses`,
+      );
       setExpenses(res.data);
     };
 
     fetchExpenses();
-  }, [params?.id, baseURL]);
+  }, [params, baseURL]);
 
   const addNewExpenseToList = (expense: ExpenseProps) => {
     setExpenses((prevExpenses) => [...prevExpenses, expense]);
