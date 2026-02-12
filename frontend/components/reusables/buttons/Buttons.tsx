@@ -16,7 +16,7 @@ const AddButton = ({ className, text, onClick, icon }: AddButtonProps) => {
   return (
     <button
       onClick={onClick}
-      className={`${className} flex items-center justify-between bg-pink-500 px-4 py-2 rounded 
+      className={`${className} flex items-center justify-between bg-pink-500 px-4 py-1 rounded 
       hover:bg-pink-600 text-white font-semibold transition 
       ease-in-out duration-200 cursor-pointer`}>
       <span className='mr-2'>{icon || "+"}</span>
