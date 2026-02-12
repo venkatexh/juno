@@ -16,18 +16,23 @@ import app.juno.space.dto.Module.ModuleResponse;
 import app.juno.space.service.module.ModuleService;
 
 @RestController
-@RequestMapping("/api/modules")
+@RequestMapping("/api")
 public class ModuleController {
 
   @Autowired
   private ModuleService moduleService;
 
-  @PostMapping
-  public ModuleResponse createNewModule(@RequestBody ModuleRequest moduleRequest) {
-    return moduleService.createModule(moduleRequest);
+  @PostMapping("/spaces/{spaceId}/modules")
+  public ModuleResponse createNewModule(@RequestBody ModuleRequest moduleRequest, @PathVariable UUID spaceId) {
+    return moduleService.createModule(moduleRequest, spaceId);
   }
 
-  @GetMapping("/{spaceId}")
+  @GetMapping("/modules/{moduleId}")
+  public ModuleResponse getModuleById(@PathVariable UUID moduleId) {
+    return moduleService.getModule(moduleId);
+  }
+
+  @GetMapping("/spaces/{spaceId}/modules")
   public List<ModuleResponse> getAllModules(@PathVariable UUID spaceId) {
     return moduleService.getAllModulesBySpaceId(spaceId);
   }

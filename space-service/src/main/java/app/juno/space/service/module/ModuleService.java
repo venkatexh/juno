@@ -22,16 +22,28 @@ public class ModuleService {
   @Autowired
   private ModuleTemplateRepository moduleTemplateRepository;
 
-  public ModuleResponse createModule(ModuleRequest moduleRequest) {
+  public ModuleResponse getModule(UUID moduleId) {
+    Module module = moduleRepository.findById(moduleId).get();
+    return new ModuleResponse(module.getId(),
+        module.getName(),
+        module.getSpaceId(),
+        module.getTemplateId(),
+        module.getModuleType(),
+        module.getCreatedByUserId(),
+        module.getCreatedAt(),
+        module.getUpdatedAt());
+  }
+
+  public ModuleResponse createModule(ModuleRequest moduleRequest, UUID spaceId) {
     Module module = new Module();
 
     module.setName(moduleRequest.name());
-    module.setSpaceId(moduleRequest.spaceId());
     module.setTemplateId(moduleRequest.templateId());
     module.setCreatedByUserId(moduleRequest.createdByUserId());
 
-    ModuleType moduleType = moduleTemplateRepository.findById(moduleRequest.templateId()).get().getModuleType();
+    module.setSpaceId(spaceId);
 
+    ModuleType moduleType = moduleTemplateRepository.findById(moduleRequest.templateId()).get().getModuleType();
     module.setModuleType(moduleType);
 
     moduleRepository.save(module);
