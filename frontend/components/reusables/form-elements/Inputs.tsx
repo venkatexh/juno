@@ -8,6 +8,7 @@ const Input = ({
   value,
   name,
   noLabel,
+  maxLength,
   className,
 }: InputProps) => {
   return (
@@ -19,6 +20,7 @@ const Input = ({
         onChange={onChange}
         value={value}
         name={name}
+        maxLength={maxLength}
         className={`${className} w-full h-10 border-b border-slate-800 focus:outline-none`}
       />
     </>
