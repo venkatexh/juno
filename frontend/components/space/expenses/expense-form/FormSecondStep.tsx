@@ -5,25 +5,15 @@ import {
 import { ExpenseFormSecondProps } from "./types/ExpenseFormSecondProps";
 import { TextLarge } from "@/components/reusables/texts/Texts";
 import MemberTile from "../../common/MemberTile";
-import { useState } from "react";
 
 const SecondStep = ({
   handleFormSubmit,
   setFormState,
+  handleSelectMember,
   errorMessage,
   members,
+  selectedMemberIds
 }: ExpenseFormSecondProps) => {
-  const [selectedMembers, setSelectedMembers] = useState<string[]>(
-    members.map((member) => member.id),
-  );
-
-  const handleSelectMember = (id: string) => {
-    if (selectedMembers.includes(id)) {
-      setSelectedMembers(selectedMembers.filter((member) => member !== id));
-    } else {
-      setSelectedMembers([...selectedMembers, id]);
-    }
-  };
 
   return (
     <div className='w-full h-full flex flex-col justify-between'>
@@ -37,7 +27,7 @@ const SecondStep = ({
               name={member.name}
               email={member.email}
               check={true}
-              checked={selectedMembers.includes(member.id)}
+              checked={selectedMemberIds.includes(member.id)}
               selectMember={(id) => handleSelectMember(id)}
             />
           ))}
@@ -57,7 +47,7 @@ const SecondStep = ({
           <SubmitButton
             text='Create'
             className='ml-4'
-            onClick={() => handleFormSubmit}
+            onClick={() => handleFormSubmit()}
           />
         </div>
       </div>

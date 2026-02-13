@@ -5,6 +5,7 @@ import { useParams } from "next/navigation";
 import axios from "axios";
 import FirstStep from "./FormFirstStep";
 import SecondStep from "./FormSecondStep";
+import { MemberProps } from "../../common/types/MemberProps";
 
 const CreateExpenseForm = ({
   handleNewExpenseResponse,
@@ -22,14 +23,18 @@ const CreateExpenseForm = ({
     title: "",
     amount: null,
   });
+  const [selectedMemberIds, setSelectedMemberIds] = useState<string[]>([]);
 
   useEffect(() => {
     const fetchMembers = async () => {
-      const res = await axios.get(`${baseURL}/spaces/${params?.id}/members`);
+      const res = await axios.get(
+        `${baseURL}/spaces/${params?.spaceId}/members`,
+      );
       setMembers(res.data);
+      setSelectedMemberIds(res.data.map((member: MemberProps) => member.id));
     };
     fetchMembers();
-  }, [params?.id, baseURL]);
+  }, [params, baseURL]);
 
   const handleFormChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -39,26 +44,46 @@ const CreateExpenseForm = ({
     }));
   };
 
-  const handleFormSubmit = async () => {
-    try {
-      const res = await axios.post(
-        `${baseURL}/spaces/${params?.id}/expenses`,
-        formData,
+  const handleSelectMember = (id: string) => {
+    if (selectedMemberIds.includes(id)) {
+      setSelectedMemberIds(
+        selectedMemberIds.filter((memberId) => memberId !== id),
       );
-      if (res.status === 201) {
-        handleNewExpenseResponse(res.data);
-        closeModal();
-        setDate(new Date());
-        setFormData({
-          title: "",
-          amount: null,
-        });
-        setErrorMessage("");
-      }
-    } catch (error) {
-      console.error("Error creating expense:", error);
-      setErrorMessage("Error creating expense.");
+    } else {
+      setSelectedMemberIds([...selectedMemberIds, id]);
     }
+  };
+
+  const handleFormSubmit = async () => {
+    // try {
+    //   const res = await axios.post(
+    //     `${baseURL}/spaces/${params?.id}/expenses`,
+    //     formData,
+    //   );
+    //   if (res.status === 201) {
+    //     handleNewExpenseResponse(res.data);
+    //     closeModal();
+    //     setDate(new Date());
+    //     setFormData({
+    //       title: "",
+    //       amount: null,
+    //     });
+    //     setErrorMessage("");
+    //   }
+    // } catch (error) {
+    //   console.error("Error creating expense:", error);
+    //   setErrorMessage("Error creating expense.");
+    // }
+
+    console.log({
+      splits: selectedMemberIds.map((memberId) => ({
+        userId: memberId,
+        amount: formData.amount
+          ? formData.amount / selectedMemberIds.length
+          : 0,
+        splitType: "EQUAL",
+      })),
+    });
   };
 
   const StepMap = new Map();
@@ -78,9 +103,11 @@ const CreateExpenseForm = ({
     "SECOND",
     <SecondStep
       handleFormSubmit={handleFormSubmit}
+      handleSelectMember={handleSelectMember}
       setFormState={setFormState}
       errorMessage={errorMessage}
       members={members}
+      selectedMemberIds={selectedMemberIds}
     />,
   );
 
