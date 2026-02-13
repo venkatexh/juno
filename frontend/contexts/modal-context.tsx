@@ -4,7 +4,7 @@ import Modal from "@/components/modal/Modal";
 import React, { createContext, useContext, useState } from "react";
 
 type ModalContextType = {
-  openModal: (content: React.ReactNode) => void;
+  openModal: (content: React.ReactNode, view: string) => void;
   closeModal: () => void;
 };
 
@@ -15,9 +15,11 @@ const ModalContext = createContext<ModalContextType>({
 
 export const ModalProvider = ({ children }: { children: React.ReactNode }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [view, setView] = useState("LANDSCAPE");
   const [modalContent, setModalContent] = useState<React.ReactNode>(<></>);
 
-  const openModal = (content: React.ReactNode) => {
+  const openModal = (content: React.ReactNode, modalView: string) => {
+    setView(modalView);
     setModalContent(content);
     setIsOpen(true);
   };
@@ -30,7 +32,7 @@ export const ModalProvider = ({ children }: { children: React.ReactNode }) => {
   return (
     <ModalContext.Provider value={{ openModal, closeModal }}>
       {children}
-      <Modal isOpen={isOpen} onClose={closeModal}>
+      <Modal isOpen={isOpen} onClose={closeModal} view={view}>
         {modalContent}
       </Modal>
     </ModalContext.Provider>

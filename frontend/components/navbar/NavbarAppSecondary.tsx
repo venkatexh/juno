@@ -32,7 +32,7 @@ const NavbarAppSecondary = () => {
   }, [params, baseURL]);
 
   const handleNewModuleClick = () => {
-    openModal(<CreateModuleForm />);
+    openModal(<CreateModuleForm />, "PORTRAIT");
   };
 
   return (

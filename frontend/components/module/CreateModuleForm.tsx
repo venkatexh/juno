@@ -51,9 +51,9 @@ const CreateModuleForm = () => {
 
   return (
     <div className='w-full h-full flex flex-col justify-between'>
-      <div>
-        <TextLarge>Choose a template</TextLarge>
-        <div className='grid grid-cols-2 gap-4 py-4 overflow-y-scroll'>
+      <div className="h-8/10">
+        <TextLarge className="mb-4">Choose a template</TextLarge>
+        <div className='w-full h-full grid grid-cols-2 gap-4  pr-6 overflow-y-scroll'>
           {templates.map((template: TemplateFields) => (
             <TemplateCard
               key={template.id}

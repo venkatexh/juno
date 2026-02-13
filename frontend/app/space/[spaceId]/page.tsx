@@ -24,12 +24,12 @@ const SpacePage = () => {
   }, [params, baseURL]);
 
   return (
-    <div className='p-12 flex flex-col gap-12'>
+    <div className='p-12 flex flex-col gap-6'>
       <SpaceHeader
         name={space?.name ?? ""}
         description={space?.description ?? ""}
       />
-      <div className='flex flex-row gap-12'>
+      <div className='flex flex-row gap-6'>
         <SpaceDueToday />
         <SpaceMembers />
       </div>

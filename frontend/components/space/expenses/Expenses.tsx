@@ -41,6 +41,7 @@ const Expenses = () => {
           addNewExpenseToList(expense)
         }
       />,
+      "LANDSCAPE",
     );
   };
 

@@ -38,13 +38,14 @@ const SpaceMembers = () => {
           addNewMemberToList(members)
         }
       />,
+      "PORTRAIT",
     );
   };
 
   return (
-    <div className='w-1/2 flex flex-col border border-gray-500 rounded-xl p-6'>
+    <div className='w-1/2 flex flex-col bg-gray-900 rounded-xl px-6 py-4'>
       <div>
-        <TextLarge>Members</TextLarge>
+        <TextLarge className='pb-4'>Members</TextLarge>
         <div className='grid grid-cols-2 gap-x-2'>
           {members.slice(0, 4).map((member: MemberProps) => (
             <MemberTile

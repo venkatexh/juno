@@ -8,7 +8,7 @@ const SpaceHeader = ({
   description: string;
 }) => {
   return (
-    <div className='w-full flex flex-col border border-gray-500 rounded-xl py-6 px-12'>
+    <div className='w-full flex flex-col rounded-xl'>
       <TextHeading>{name}</TextHeading>
       <TextMedium>{description}</TextMedium>
     </div>
