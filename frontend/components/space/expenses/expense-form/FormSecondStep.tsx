@@ -5,33 +5,62 @@ import {
 import { ExpenseFormSecondProps } from "./types/ExpenseFormSecondProps";
 import { TextLarge } from "@/components/reusables/texts/Texts";
 import MemberTile from "../../common/MemberTile";
+import { useState } from "react";
+import { Tabs } from "@/components/reusables/tabs/Tabs";
 
 const SecondStep = ({
   handleFormSubmit,
   setFormState,
   handleSelectMember,
+  handleUnequalSplit,
   errorMessage,
   members,
-  selectedMemberIds
+  selectedMemberIds,
 }: ExpenseFormSecondProps) => {
+  const [splitTypeSelected, setSplitTypeSelected] = useState("EQUALLY");
 
   return (
     <div className='w-full h-full flex flex-col justify-between'>
       <div>
         <TextLarge>Split among members</TextLarge>
-        <div className='grid grid-cols-2 gap-4 pt-2'>
-          {members.map((member) => (
-            <MemberTile
-              key={member.id}
-              id={member.id}
-              name={member.name}
-              email={member.email}
-              check={true}
-              checked={selectedMemberIds.includes(member.id)}
-              selectMember={(id) => handleSelectMember(id)}
-            />
-          ))}
-        </div>
+        <Tabs
+          selected={splitTypeSelected}
+          tabValues={["EQUALLY", "UNEQUALLY"]}
+          handleSelectTab={(tab: string) => setSplitTypeSelected(tab)}
+        />
+        {splitTypeSelected === "EQUALLY" && (
+          <div className='grid grid-cols-2 gap-x-2'>
+            {members.map((member) => (
+              <MemberTile
+                key={member.id}
+                id={member.id}
+                name={member.name}
+                email={member.email}
+                check={true}
+                checked={selectedMemberIds.includes(member.id)}
+                selectMember={(id) => handleSelectMember(id)}
+                handleUpdateSplitAmount={() => {}}
+              />
+            ))}
+          </div>
+        )}
+        {splitTypeSelected === "UNEQUALLY" && (
+          <div className='grid grid-cols-2 gap-x-2'>
+            {members.map((member) => (
+              <MemberTile
+                key={member.id}
+                id={member.id}
+                name={member.name}
+                email={member.email}
+                amountInput={true}
+                selectMember={(id) => handleSelectMember(id)}
+                handleUpdateSplitAmount={(id, amount) =>
+                  handleUnequalSplit(id, amount)
+                }
+              />
+            ))}
+          </div>
+        )}
       </div>
       <div className=''>
         {errorMessage != "" && (

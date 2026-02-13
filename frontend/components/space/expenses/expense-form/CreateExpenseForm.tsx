@@ -7,6 +7,11 @@ import FirstStep from "./FormFirstStep";
 import SecondStep from "./FormSecondStep";
 import { MemberProps } from "../../common/types/MemberProps";
 
+type SplitFields = {
+  userId: string;
+  amount: number;
+  splitType: string;
+};
 const CreateExpenseForm = ({
   handleNewExpenseResponse,
 }: {
@@ -24,6 +29,7 @@ const CreateExpenseForm = ({
     amount: null,
   });
   const [selectedMemberIds, setSelectedMemberIds] = useState<string[]>([]);
+  const [unequalSplits, setUnequalSplits] = useState<SplitFields[]>([]);
 
   useEffect(() => {
     const fetchMembers = async () => {
@@ -54,6 +60,23 @@ const CreateExpenseForm = ({
     }
   };
 
+  const handleUnequalSplit = (id: string, amount: number) => {
+    const foundSplit = unequalSplits.find((split) => split.userId === id);
+    if (foundSplit) {
+      setUnequalSplits((prevSplits) => [
+        ...prevSplits.filter((split) => split.userId !== id, {
+          userId: id,
+          amount: amount + amount,
+          splitType: "UNEQUAL",
+        }),
+      ]);
+    }
+    setUnequalSplits((prevSplits) => [
+      ...prevSplits,
+      { userId: id, amount, splitType: "UNEQUAL" },
+    ]);
+  };
+
   const handleFormSubmit = async () => {
     // try {
     //   const res = await axios.post(
@@ -75,15 +98,18 @@ const CreateExpenseForm = ({
     //   setErrorMessage("Error creating expense.");
     // }
 
-    console.log({
-      splits: selectedMemberIds.map((memberId) => ({
-        userId: memberId,
-        amount: formData.amount
-          ? formData.amount / selectedMemberIds.length
-          : 0,
-        splitType: "EQUAL",
-      })),
-    });
+    console.log(
+      {
+        splits: selectedMemberIds.map((memberId) => ({
+          userId: memberId,
+          amount: formData.amount
+            ? formData.amount / selectedMemberIds.length
+            : 0,
+          splitType: "EQUAL",
+        })),
+      },
+      unequalSplits,
+    );
   };
 
   const StepMap = new Map();
@@ -99,11 +125,13 @@ const CreateExpenseForm = ({
       setDate={setDate}
     />,
   );
+
   StepMap.set(
     "SECOND",
     <SecondStep
       handleFormSubmit={handleFormSubmit}
       handleSelectMember={handleSelectMember}
+      handleUnequalSplit={(id, amount) => handleUnequalSplit(id, amount)}
       setFormState={setFormState}
       errorMessage={errorMessage}
       members={members}

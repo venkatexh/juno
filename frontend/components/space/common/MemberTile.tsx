@@ -7,7 +7,9 @@ const MemberTile = ({
   email,
   check,
   checked,
+  amountInput,
   selectMember,
+  handleUpdateSplitAmount,
 }: MemberProps) => {
   return (
     <div className='flex items-center justify-between gap-4 py-2 px-4 rounded-xl my-1 bg-gray-800'>
@@ -32,6 +34,21 @@ const MemberTile = ({
           </div>
         )}
       </div>
+      {amountInput && (
+        <div className='text-gray-500 border-b'>
+          <span className='pr-1'>₹</span>
+          <input
+            type='number'
+            placeholder='0.00'
+            className='w-16 h-auto focus:outline-none'
+            // value={splitValue}
+            // name={}
+            onChange={(e) =>
+              handleUpdateSplitAmount(id, parseFloat(e.target.value))
+            }
+          />
+        </div>
+      )}
     </div>
   );
 };
