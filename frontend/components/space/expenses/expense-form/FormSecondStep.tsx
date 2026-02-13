@@ -16,6 +16,7 @@ const SecondStep = ({
   errorMessage,
   members,
   selectedMemberIds,
+  splitBalance,
 }: ExpenseFormSecondProps) => {
   const [splitTypeSelected, setSplitTypeSelected] = useState("EQUALLY");
 
@@ -45,23 +46,33 @@ const SecondStep = ({
           </div>
         )}
         {splitTypeSelected === "UNEQUALLY" && (
-          <div className='grid grid-cols-2 gap-x-2'>
-            {members.map((member) => (
-              <MemberTile
-                key={member.id}
-                id={member.id}
-                name={member.name}
-                email={member.email}
-                amountInput={true}
-                selectMember={(id) => handleSelectMember(id)}
-                handleUpdateSplitAmount={(id, amount) =>
-                  handleUnequalSplit(id, amount)
-                }
-              />
-            ))}
-          </div>
+          <>
+            <div className='grid grid-cols-2 gap-x-2'>
+              {members.map((member) => (
+                <MemberTile
+                  key={member.id}
+                  id={member.id}
+                  name={member.name}
+                  email={member.email}
+                  amountInput={true}
+                  selectMember={(id) => handleSelectMember(id)}
+                  handleUpdateSplitAmount={(id, e) => handleUnequalSplit(id, e)}
+                />
+              ))}
+            </div>
+            <div className='pt-2'>
+              <span
+                className={`${splitBalance < 0 ? "text-red-500" : ""} 
+                ${splitBalance == 0 ? "text-green-500" : ""} 
+                ${splitBalance > 0 ? "text-amber-500" : ""}`}>
+                {splitBalance}{" "}
+              </span>
+              left to split
+            </div>
+          </>
         )}
       </div>
+
       <div className=''>
         {errorMessage != "" && (
           <div className='text-red-700 text-lg'>{errorMessage}</div>

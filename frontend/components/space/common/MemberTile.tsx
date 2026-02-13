@@ -38,14 +38,10 @@ const MemberTile = ({
         <div className='text-gray-500 border-b'>
           <span className='pr-1'>₹</span>
           <input
-            type='number'
+            type='text'
             placeholder='0.00'
-            className='w-16 h-auto focus:outline-none'
-            // value={splitValue}
-            // name={}
-            onChange={(e) =>
-              handleUpdateSplitAmount(id, parseFloat(e.target.value))
-            }
+            className='w-12 h-auto focus:outline-none'
+            onChange={(e) => handleUpdateSplitAmount(id, e)}
           />
         </div>
       )}

@@ -6,6 +6,6 @@ export type MemberProps = {
   check?: boolean;
   checked?: boolean;
   amountInput?: boolean;
-  handleUpdateSplitAmount: (id: string, amount: number) => void | null;
+  handleUpdateSplitAmount: (id: string, e: React.ChangeEvent<HTMLInputElement>) => void | null;
   selectMember: (id: string) => void | null;
 };

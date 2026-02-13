@@ -9,7 +9,7 @@ import { MemberProps } from "../../common/types/MemberProps";
 
 type SplitFields = {
   userId: string;
-  amount: number;
+  amount: string;
   splitType: string;
 };
 const CreateExpenseForm = ({
@@ -60,20 +60,23 @@ const CreateExpenseForm = ({
     }
   };
 
-  const handleUnequalSplit = (id: string, amount: number) => {
+  const handleUnequalSplit = (
+    id: string,
+    e: React.ChangeEvent<HTMLInputElement>,
+  ) => {
     const foundSplit = unequalSplits.find((split) => split.userId === id);
     if (foundSplit) {
       setUnequalSplits((prevSplits) => [
         ...prevSplits.filter((split) => split.userId !== id, {
           userId: id,
-          amount: amount + amount,
+          amount: e.target.value,
           splitType: "UNEQUAL",
         }),
       ]);
     }
     setUnequalSplits((prevSplits) => [
       ...prevSplits,
-      { userId: id, amount, splitType: "UNEQUAL" },
+      { userId: id, amount: e.target.value, splitType: "UNEQUAL" },
     ]);
   };
 
@@ -108,7 +111,11 @@ const CreateExpenseForm = ({
           splitType: "EQUAL",
         })),
       },
-      unequalSplits,
+      unequalSplits.map((split) => ({
+        userId: split.userId,
+        amount: Number(split.amount),
+        splitType: "UNEQUAL",
+      })),
     );
   };
 
@@ -131,11 +138,15 @@ const CreateExpenseForm = ({
     <SecondStep
       handleFormSubmit={handleFormSubmit}
       handleSelectMember={handleSelectMember}
-      handleUnequalSplit={(id, amount) => handleUnequalSplit(id, amount)}
+      handleUnequalSplit={(id, e) => handleUnequalSplit(id, e)}
       setFormState={setFormState}
       errorMessage={errorMessage}
       members={members}
       selectedMemberIds={selectedMemberIds}
+      splitBalance={
+        Number(formData.amount) -
+        unequalSplits.reduce((total, split) => total + Number(split.amount), 0)
+      }
     />,
   );
 
