@@ -49,14 +49,16 @@ const Expenses = () => {
     <div className='w-3/5 h-full flex flex-col justify-between p-6 bg-gray-900 rounded-2xl'>
       <div>
         <TextSmall className='mb-2'>February 2025</TextSmall>
-        {expenses.map((expense: ExpenseProps) => (
-          <ExpenseCard
-            key={expense.id}
-            title={expense.title}
-            date={expense.date}
-            amount={expense.amount}
-          />
-        ))}
+        <div className='flex flex-col gap-2'>
+          {expenses.map((expense: ExpenseProps) => (
+            <ExpenseCard
+              key={expense.id}
+              title={expense.title}
+              date={expense.date}
+              amount={expense.amount}
+            />
+          ))}
+        </div>
       </div>
       <div className='flex items-center justify-end'>
         <AddButton

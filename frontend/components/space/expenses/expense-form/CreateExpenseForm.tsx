@@ -28,6 +28,7 @@ const CreateExpenseForm = ({
     title: "",
     amount: null,
   });
+  const [splitTypeSelected, setSplitTypeSelected] = useState("EQUALLY");
   const [selectedMemberIds, setSelectedMemberIds] = useState<string[]>([]);
   const [unequalSplits, setUnequalSplits] = useState<SplitFields[]>([]);
 
@@ -81,42 +82,47 @@ const CreateExpenseForm = ({
   };
 
   const handleFormSubmit = async () => {
-    // try {
-    //   const res = await axios.post(
-    //     `${baseURL}/spaces/${params?.id}/expenses`,
-    //     formData,
-    //   );
-    //   if (res.status === 201) {
-    //     handleNewExpenseResponse(res.data);
-    //     closeModal();
-    //     setDate(new Date());
-    //     setFormData({
-    //       title: "",
-    //       amount: null,
-    //     });
-    //     setErrorMessage("");
-    //   }
-    // } catch (error) {
-    //   console.error("Error creating expense:", error);
-    //   setErrorMessage("Error creating expense.");
-    // }
-
-    console.log(
-      {
-        splits: selectedMemberIds.map((memberId) => ({
-          userId: memberId,
-          amount: formData.amount
-            ? formData.amount / selectedMemberIds.length
-            : 0,
-          splitType: "EQUAL",
-        })),
-      },
-      unequalSplits.map((split) => ({
-        userId: split.userId,
-        amount: Number(split.amount),
-        splitType: "UNEQUAL",
-      })),
-    );
+    try {
+      const res = await axios.post(
+        `${baseURL}/modules/${params?.moduleId}/expenses`,
+        {
+          ...formData,
+          currency: "INR",
+          expenseDate: date,
+          addedByUserId: "",
+          paidByUserId: "",
+          splits:
+            splitTypeSelected === "EQUALLY"
+              ? selectedMemberIds.map((memberId) => ({
+                  userId: memberId,
+                  amount: formData.amount
+                    ? formData.amount / selectedMemberIds.length
+                    : 0,
+                  splitType: "EQUAL",
+                }))
+              : unequalSplits.map((split) => ({
+                  userId: split.userId,
+                  amount: Number(split.amount),
+                  splitType: "UNEQUAL",
+                })),
+        },
+      );
+      if (res.status === 201 || res.status === 200) {
+        handleNewExpenseResponse(res.data);
+        setDate(new Date());
+        setFormData({
+          title: "",
+          amount: null,
+        });
+        setSelectedMemberIds([]);
+        setUnequalSplits([]);
+        setErrorMessage("");
+        closeModal();
+      }
+    } catch (error) {
+      console.error("Error creating expense:", error);
+      setErrorMessage("Error creating expense.");
+    }
   };
 
   const StepMap = new Map();
@@ -143,6 +149,8 @@ const CreateExpenseForm = ({
       errorMessage={errorMessage}
       members={members}
       selectedMemberIds={selectedMemberIds}
+      splitTypeSelected={splitTypeSelected}
+      setSplitTypeSelected={setSplitTypeSelected}
       splitBalance={
         Number(formData.amount) -
         unequalSplits.reduce((total, split) => total + Number(split.amount), 0)
