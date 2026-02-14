@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,11 +15,9 @@ import app.juno.auth.dto.UserProfile;
 import app.juno.auth.dto.UserRequest;
 import app.juno.auth.repository.UserRepository;
 import app.juno.auth.service.UserService;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-@Slf4j
 @RestController
 @RequestMapping("/api/user")
 public class UserController {
@@ -26,6 +26,11 @@ public class UserController {
   private UserService userService;
   @Autowired
   private UserRepository userRepository;
+
+  @GetMapping("/me")
+  public UserProfile getOrCreateUser(@AuthenticationPrincipal Jwt jwt) {
+    return userService.getOrCreateUser(jwt);
+  }
 
   @PostMapping
   @PreAuthorize("permitAll()")
@@ -37,12 +42,10 @@ public class UserController {
   @PostMapping("/profiles/batch")
   @PreAuthorize("permitAll()")
   public List<UserProfile> getUserProfiles(@RequestBody List<String> userIds) {
-    log.info("Getting profiles for {}", userIds);
     List<UserProfile> profiles = userRepository.findByIdIn(userIds)
         .stream()
         .map(u -> new UserProfile(u.getId(), u.getDisplayName(), u.getEmail()))
         .toList();
-    log.info("profiles {}", profiles);
     return profiles;
 
   }
