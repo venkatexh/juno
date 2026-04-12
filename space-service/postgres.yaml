@@ -24,6 +24,10 @@ spec:
               value: admin
             - name: POSTGRES_PASSWORD
               value: admin123
+      volumes:
+          - name: postgres-storage
+            persistentVolumeClaim:
+              claimName: postgres-pvc
 ---
 apiVersion: v1
 kind: Service
