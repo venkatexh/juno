@@ -33,6 +33,17 @@ public class SpaceService {
     spaceRepository.save(space);
   }
 
+  public void createDefaultSpace(UUID ownerId) {
+    Space space = new Space();
+    space.setName("Default Space");
+    space.setDescription("This is your default space");
+    space.setImageUrl("https://via.placeholder.com/150");
+    space.setVisibility("PUBLIC");
+    space.setStatus("ACTIVE");
+    space.setOwnerId(ownerId);
+    spaceRepository.save(space);
+  }
+
   public List<SpaceResponse> getSpacesByOwnerId(UUID ownerId) {
     return spaceRepository.findAllByOwnerId(ownerId).stream().map(sp -> new SpaceResponse(sp.getId(), sp.getName(),
         sp.getDescription(), sp.getImageUrl(), sp.getVisibility(), sp.getStatus(), sp.getOwnerId(), sp.getChatId()))
