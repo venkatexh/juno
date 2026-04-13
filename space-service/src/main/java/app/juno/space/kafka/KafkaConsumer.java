@@ -15,9 +15,15 @@ public class KafkaConsumer {
 
   @Autowired
   private SpaceService spaceService;
+
   @KafkaListener(topics = "user-created")
   public void onUserCreated(UUID userId) {
     log.info("Received USER_CREATED event for {}", userId);
+
+    if (spaceService.defaultSpaceExists(userId)) {
+      log.info("Default space already exists for user {}", userId);
+      return;
+    }
 
     try {
       spaceService.createDefaultSpace(userId);

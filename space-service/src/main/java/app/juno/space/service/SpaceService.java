@@ -43,6 +43,10 @@ public class SpaceService {
     spaceRepository.save(space);
   }
 
+  public Boolean defaultSpaceExists(UUID ownerId) {
+    return spaceRepository.findAllByOwnerId(ownerId).stream().anyMatch(Space::getDefaultSpace);
+  }
+
   public List<SpaceResponse> getSpacesByOwnerId(UUID ownerId) {
     return spaceRepository.findAllByOwnerId(ownerId).stream().map(sp -> new SpaceResponse(sp.getId(), sp.getName(),
         sp.getDescription(), sp.getImageUrl(), sp.getVisibility(), sp.getStatus(), sp.getOwnerId(), sp.getChatId()))
