@@ -1,6 +1,7 @@
 package app.juno.auth.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +25,7 @@ public class AuthService {
 
   private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
-  public void signup(AuthRequest req) {
+  public String signup(AuthRequest req) {
     String hash = encoder.encode(req.getPassword());
 
     User user = new User();
@@ -33,6 +34,8 @@ public class AuthService {
     userRepository.save(user);
 
     kafkaProducer.sendUserCreated(user.getId().toString(), user.getEmail());
+
+    return jwtUtil.generateToken(user.getId(), user.getEmail());
   }
 
   public String login(AuthRequest req) {
