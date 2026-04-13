@@ -38,8 +38,7 @@ public class SpaceService {
     space.setName("Default Space");
     space.setDescription("This is your default space");
     space.setImageUrl("https://via.placeholder.com/150");
-    space.setVisibility("PUBLIC");
-    space.setStatus("ACTIVE");
+    space.setDefaultSpace(true);
     space.setOwnerId(ownerId);
     spaceRepository.save(space);
   }
