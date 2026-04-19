@@ -110,6 +110,7 @@ const AddMemberForm = ({
                 check={false}
                 checked={false}
                 selectMember={() => {}}
+                handleUpdateSplitAmount={() => {}}
               />
             ))}
           </div>

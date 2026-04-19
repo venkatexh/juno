@@ -54,6 +54,7 @@ const SpaceMembers = () => {
               name={member.name}
               email={member.email}
               selectMember={() => null}
+              handleUpdateSplitAmount={() => null}
             />
           ))}
         </div>
