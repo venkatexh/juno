@@ -1,9 +1,9 @@
 "use client";
 
+// @ts-expect-error: CSS global import lacks module type declarations
 import "./globals.css";
 import { Geist, Geist_Mono } from "next/font/google";
 import { ModalProvider } from "@/contexts/modal-context";
-import NavbarAppPrimary from "@/components/navbar/NavbarAppPrimary";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -25,7 +25,6 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased relative`}>
         <ModalProvider>
-          <NavbarAppPrimary />
           <div className='ml-32'>{children}</div>
         </ModalProvider>
       </body>

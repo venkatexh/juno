@@ -17,7 +17,7 @@ const SpacePage = () => {
       setSpaces(response.data);
     };
     fetchSpaces();
-  }, []);
+  }, [baseURL]);
 
   return (
     <div>
