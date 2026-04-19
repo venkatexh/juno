@@ -43,7 +43,7 @@ public class ModuleTemplate {
   @Enumerated(EnumType.STRING)
   private SubscriptionType subscriptionType;
 
-  @Column(nullable = false)
+  @Column(nullable = false, columnDefinition = "TEXT", name = "image_url")
   private String imageURL;
 
   @Column(nullable = false)

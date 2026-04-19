@@ -19,13 +19,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 public class ModuleTemplateController {
 
   @Autowired
-  private final ModuleTemplateService moduleTemplateService;
+  private ModuleTemplateService moduleTemplateService;
 
   ModuleTemplateController(ModuleTemplateService moduleTemplateService) {
     this.moduleTemplateService = moduleTemplateService;
   }
 
-  @GetMapping
+ @GetMapping
   public List<ModuleTemplateResponse> getAllModuleTemplates() {
     return moduleTemplateService.getAllModuleTemplates();
   }

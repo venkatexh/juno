@@ -41,6 +41,9 @@ public class SpaceService {
     space.setDefaultSpace(true);
     space.setOwnerId(ownerId);
     spaceRepository.save(space);
+
+    Membership membership = new Membership(ownerId, space);
+    membershipRepository.save(membership);
   }
 
   public Boolean defaultSpaceExists(UUID ownerId) {
@@ -66,6 +69,17 @@ public class SpaceService {
     Space sp = spaceRepository.findById(id).get();
     return new SpaceResponse(sp.getId(), sp.getName(), sp.getDescription(),
         sp.getImageUrl(), sp.getVisibility(), sp.getStatus(), sp.getOwnerId(), sp.getChatId());
+  }
+
+  public List<SpaceResponse> getSpaces(String userId) {
+    List<SpaceResponse> spaces = membershipRepository.findByUserId(UUID.fromString(userId))
+        .stream()
+        .map(Membership::getSpace)
+        .toList().stream().map(sp -> new SpaceResponse(sp.getId(), sp.getName(), sp.getDescription(), sp.getImageUrl(),
+            sp.getVisibility(), sp.getStatus(), sp.getOwnerId(), sp.getChatId()))
+        .toList();
+        System.out.println(spaces);
+    return spaces;
   }
 
 }

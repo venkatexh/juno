@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.http.HttpStatus;
 
 @RestController
@@ -37,6 +38,12 @@ public class SpaceController {
   @ResponseStatus(HttpStatus.OK)
   public SpaceResponse getSpace(@PathVariable UUID id) {
     return spaceService.getSpace(id);
+  }
+
+  @GetMapping("")
+  @ResponseStatus(HttpStatus.OK)
+  public List<SpaceResponse> getAllSpaces(@RequestHeader("X-User-Id") String userId) {
+    return spaceService.getSpaces(userId);
   }
 
   @GetMapping(params = "userId")
