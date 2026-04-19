@@ -24,8 +24,8 @@ public class AuthController {
     String token = authService.signup(req);
 
     Cookie cookie = new Cookie("accessToken", token);
-    cookie.setHttpOnly(true);
-    cookie.setSecure(false); // set to true in production
+    cookie.setHttpOnly(false);
+    cookie.setSecure(true); // set to true in production
     cookie.setPath("/");
     cookie.setMaxAge(24 * 60 * 60 * 30); // 30 days
 
