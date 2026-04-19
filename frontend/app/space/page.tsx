@@ -11,10 +11,8 @@ const SpacePage = () => {
 
   useEffect(() => {
     const fetchSpaces = async () => {
-      const response = await axios.get(`${baseURL}/spaces`, {
-        params: {
-          userId: "4e9b79b4-c7e9-4d04-b709-92feafebacdf",
-        },
+      const response = await axios.get(`${baseURL}/api/spaces`, {
+        withCredentials: true,
       });
       setSpaces(response.data);
     };
