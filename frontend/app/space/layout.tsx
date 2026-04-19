@@ -8,7 +8,7 @@ export default function SpacesLayout({
   return (
     <>
       <NavbarAppPrimary />
-      <div>{children}</div>
+      <div className="ml-32">{children}</div>
     </>
   );
 }
