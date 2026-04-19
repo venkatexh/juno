@@ -16,7 +16,12 @@ const SpacePage = () => {
 
   useEffect(() => {
     const getSpaceById = async () => {
-      const response = await axios.get(`${baseURL}/spaces/${params?.spaceId}`);
+      const response = await axios.get(
+        `${baseURL}/api/spaces/${params?.spaceId}`,
+        {
+          withCredentials: true,
+        },
+      );
       setSpace(response.data);
     };
 

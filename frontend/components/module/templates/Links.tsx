@@ -18,7 +18,10 @@ const LinksPage = () => {
   useEffect(() => {
     const fetchLinks = async () => {
       const response = await axios.get(
-        `${baseUrl}/modules/${params?.moduleId}/links`,
+        `${baseUrl}/api/modules/${params?.moduleId}/links`,
+        {
+          withCredentials: true,
+        },
       );
       setLinks(response.data);
     };

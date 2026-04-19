@@ -17,7 +17,9 @@ const ModulePage = () => {
 
   useEffect(() => {
     const fetchModuleById = async () => {
-      const res = await axios.get(`${baseURL}/modules/${params?.moduleId}`);
+      const res = await axios.get(`${baseURL}/api/modules/${params?.moduleId}`, {
+        withCredentials: true,
+      });
       setModule(res.data);
     };
 

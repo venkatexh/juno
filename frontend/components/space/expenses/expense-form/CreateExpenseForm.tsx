@@ -35,7 +35,10 @@ const CreateExpenseForm = ({
   useEffect(() => {
     const fetchMembers = async () => {
       const res = await axios.get(
-        `${baseURL}/spaces/${params?.spaceId}/members`,
+        `${baseURL}/api/spaces/${params?.spaceId}/members`,
+        {
+          withCredentials: true,
+        },
       );
       setMembers(res.data);
       setSelectedMemberIds(res.data.map((member: MemberProps) => member.id));
@@ -84,7 +87,7 @@ const CreateExpenseForm = ({
   const handleFormSubmit = async () => {
     try {
       const res = await axios.post(
-        `${baseURL}/modules/${params?.moduleId}/expenses`,
+        `${baseURL}/api/modules/${params?.moduleId}/expenses`,
         {
           ...formData,
           currency: "INR",
@@ -105,6 +108,9 @@ const CreateExpenseForm = ({
                   amount: Number(split.amount),
                   splitType: "UNEQUAL",
                 })),
+        },
+        {
+          withCredentials: true,
         },
       );
       if (res.status === 201 || res.status === 200) {

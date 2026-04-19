@@ -19,7 +19,10 @@ const SpaceMembers = () => {
   useEffect(() => {
     const getMembers = async () => {
       const response = await axios.get(
-        `${baseURL}/spaces/${params?.spaceId}/members`,
+        `${baseURL}/api/spaces/${params?.spaceId}/members`,
+        {
+          withCredentials: true,
+        },
       );
       setMembers(response.data);
     };

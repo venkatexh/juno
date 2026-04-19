@@ -22,7 +22,10 @@ const Expenses = () => {
   useEffect(() => {
     const fetchExpenses = async () => {
       const res = await axios.get(
-        `${baseURL}/modules/${params?.moduleId}/expenses`,
+        `${baseURL}/api/modules/${params?.moduleId}/expenses`,
+        {
+          withCredentials: true,
+        },
       );
       setExpenses(res.data);
     };

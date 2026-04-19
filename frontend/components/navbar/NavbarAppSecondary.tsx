@@ -21,7 +21,10 @@ const NavbarAppSecondary = () => {
   useEffect(() => {
     const fetchModules = async () => {
       const res = await axios.get(
-        `${baseURL}/spaces/${params?.spaceId}/modules`,
+        `${baseURL}/api/spaces/${params?.spaceId}/modules`,
+        {
+          withCredentials: true,
+        },
       );
 
       if (res.status === 200 || res.status === 201) {

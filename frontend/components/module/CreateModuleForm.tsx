@@ -19,7 +19,9 @@ const CreateModuleForm = () => {
 
   useEffect(() => {
     const fetchTemplates = async () => {
-      const res = await axios.get(`${baseURL}/modules/templates`);
+      const res = await axios.get(`${baseURL}/api/modules/templates`, {
+        withCredentials: true,
+      });
       if (res.status === 200 || res.status === 201) {
         setTemplates(res.data);
       }

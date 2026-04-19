@@ -48,9 +48,15 @@ const AddMemberForm = ({
       spaceId: params?.id,
     };
     console.log(membersBody);
-    const res = await axios.post(`${baseURL}/spaces/members/batch`, {
-      ...membersBody,
-    });
+    const res = await axios.post(
+      `${baseURL}/api/spaces/members/batch`,
+      {
+        ...membersBody,
+      },
+      {
+        withCredentials: true,
+      },
+    );
     if (res.status == 201 || res.status == 200) {
       handleNewMemberResponse(membersToAdd);
       closeModal();
