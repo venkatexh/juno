@@ -39,6 +39,9 @@ const NavbarAppSecondary = () => {
     <div className='fixed left-16 w-64 h-screen border-r border-slate-800 flex flex-col py-10 px-2'>
       <TextLarge className='px-6 pb-4'>All modules</TextLarge>
       <div className='flex flex-col'>
+        <Link href={`/space/${params?.spaceId}`} className='my-1 px-6 text-lg'>
+          Home
+        </Link>
         {modules.map((module: ModuleProps) => (
           <Link
             key={module.id}
